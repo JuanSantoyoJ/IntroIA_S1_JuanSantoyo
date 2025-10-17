@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+description: 'Getting started'
+# Optionally set API keys here instead of exporting environment variables.
+# Never commit real keys to source control.
+env:
+   GEMINI_API_KEY: AIzaSyAQXwc5EfRIR0Hh4XK7dS8LIL6P76bs_lw
+prompts:
+  - 'Convert this English to {{language}}: {{input}}'
+  - 'Translate to {{language}}: {{input}}'
+  - 'Traduce este texto a {{languague}}: {{input}}'
+
+providers:
+  - google:gemini-2.5-flash
+  # Or setup models from other providers
+  # - anthropic:messages:claude-sonnet-4-20250514
+  # - vertex:gemini-2.5-pro
+
+tests:
+  - vars:
+      language: French
+      input: Hello world
+    assert:
+      - type: contains
+        value: 'Bonjour le monde'
+
+  - vars:
+      language: Spanish
+      input: Where is the library?
+    assert:
+      - type: icontains
+        value: 'Dónde está la biblioteca'
+
+  - vars:
+      language: English
+      input: '¿Cual es tu nombre?'
+    assert:
+      - type: icontains 
+        value: 'name'
